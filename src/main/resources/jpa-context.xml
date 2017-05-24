@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd">
+
+	<!-- 这里定义JPA相关配置。总体上来说，这里使用以Hibernate为Provider的JPA2.0方案，使用Spring来进行集成，不依赖于容器的JPA实现。 -->
+	<beans profile="prod">
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close">
+			<property name="driverClassName" value="#{env['jdbcDriver']}" />
+			<property name="testOnBorrow" value="#{env['jdbcTestOnBorrow']?: true}" />
+			<property name="testOnReturn" value="#{env['jdbcTestOnReturn']?: false}" />
+			<property name="testWhileIdle" value="#{env['jdbcTestWhileIdle']?: false}" />
+			<property name="validationQuery" value="#{env['jdbcTestSql']}" />
+			<property name="timeBetweenEvictionRunsMillis" value="#{env['jdbcHeartbeat'] ?: 60000}" />
+			<property name="maxActive" value="#{env['jdbcMaxActive'] ?: 20}" />
+			<property name="maxIdle" value="#{env['jdbcMaxIdle'] ?: 10 }" />
+			<property name="minIdle" value="#{env['jdbcMinIdle'] ?: 2 }" />
+			<property name="minEvictableIdleTimeMillis" value="#{env['jdbcMinEvictableIdleTimeMillis'] ?: 1800000}" />
+			<property name="url" value="#{env['jdbcUrl']}" />
+			<property name="username" value="#{env['jdbcUsername']}" />
+			<property name="password" value="#{env['jdbcPassword']}" />
+		</bean>
+	</beans>
+
+	<!-- 使用内存H2数据库作为数据源，数据库名为mem:memdb,用户名sa，无密码，可以使用jdbc:h2:localhost:mem:memdb;LOCK_MODE=0来连接。LOCK_MODE=0为指定脏读 -->
+	<!-- 这里使用自定义Configurer而不是使用<jdbc:embedded-database/>，目的是为了加上MVCC=true参数，不然H2会用锁表来代替，造成一堆锁表问题，以及锁表造成的暴露不出的问题 -->
+	<beans profile="dev">
+		<bean id="dataSource"
+			class="org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactoryBean">
+			<property name="databaseName" value="memdb" />
+			<property name="databaseConfigurer">
+				<bean class="net.engining.pg.support.utils.H2MvccConfigurer" />
+			</property>
+		</bean>
+		<bean id="h2tcp" class="org.h2.tools.Server" factory-method="createTcpServer"
+			init-method="start" destroy-method="stop">
+			<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
+		</bean>
+		<!-- <bean id="h2Web" class="org.h2.tools.Server" factory-method="createWebServer"
+			init-method="start" destroy-method="stop">
+			<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
+		</bean> -->
+		<jdbc:initialize-database data-source="dataSource">
+			<jdbc:script location="classpath:/init-data.sql"
+				encoding="UTF-8" />
+		</jdbc:initialize-database>
+	</beans>
+
+	<beans>
+		<bean class="org.springframework.jdbc.core.JdbcTemplate">
+			<property name="dataSource" ref="dataSource" />
+		</bean>
+
+		<bean class="net.engining.pg.support.database.DialectSequenceGenerator" />
+
+		<bean id="emf"
+			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+			<description>
+				定义EntityManagerFactory，用于Spring控制事务。
+				具体的Hibernate配置在persistence.xml中控制，包括JPA
+				Provider和Hibernate的各种参数（不含组件扫描)。
+			</description>
+			<property name="dataSource" ref="dataSource" />
+			<property name="persistenceUnitName" value="default" />
+			<property name="persistenceProviderClass" value="org.hibernate.jpa.HibernatePersistenceProvider" />
+			<property name="jpaDialect"> 
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+			</property>
+			<property name="packagesToScan">
+				<list>
+					<!-- <value>net.engining.pg.parameter.entity.model</value> -->
+					<value>com.phome.com.entity.model</value>
+					<value>net.engining.profile.entity.model</value>
+					<!-- <value>com.phome.mom.entity.model</value> -->
+					<!-- <value>com.phome.osm.entity.model</value> -->
+				</list>
+			</property>
+			<property name="jpaVendorAdapter">
+				<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+					<property name="database" value="MYSQL" />
+					<property name="generateDdl" value="#{env['generateDdl']?: false}" />
+					<property name="showSql" value="#{env['showSql']?: false}" />
+				</bean>
+			</property>
+		</bean>
+
+		<!-- 事务设置 -->
+		<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+			<property name="entityManagerFactory" ref="emf" />
+		</bean>
+
+		<!-- 事务使用AspectJ进行编译时Weave -->
+		<tx:annotation-driven mode="aspectj" transaction-manager="transactionManager" />
+	</beans>
+</beans>

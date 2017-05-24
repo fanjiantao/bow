@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans default-lazy-init="false" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	<!-- 全局容器配置，这里写全局配置以及引入其它专项配置 -->
+
+	<beans profile="dev">
+		<bean id="env" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations" value="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}" />
+		</bean>
+	</beans>
+	
+	<beans profile="prod">
+		<bean id="env" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations" value="#{systemProperties['env.files'] ?: 'classpath:/dev/*.properties'}" />
+		</bean>
+	</beans>
+
+	<beans>
+		<!-- 支持@Autowire等 -->
+		<context:annotation-config />
+
+		<context:spring-configured />
+
+
+		<bean id="prameterFacility" class="net.engining.pg.parameter.LocalNoCacheParameterPacility"/>
+		<bean id="systemStatusFacility" class="net.engining.pcx.gm.facility.SystemStatusFacility"/>
+
+		<context:component-scan base-package="net.engining.pcx.gm" />
+		<context:component-scan base-package="net.engining.profile.srv.service" />
+		<context:component-scan base-package="com.phome.com.srv.service" />
+		<!-- <context:component-scan base-package="com.phome.mom.srv.service" /> -->
+		<!-- <context:component-scan base-package="com.phome.osm.srv.service" /> -->
+
+	</beans>
+</beans>
