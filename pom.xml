@@ -235,21 +235,21 @@
 					 <artifactId>mysql-connector-java</artifactId>
 				 </dependency>
 				<!-- 服务依赖 -->
-				<dependency>
+				<!-- <dependency>
 					<groupId>com.phome.osm</groupId>
 					<artifactId>osm-srv</artifactId>
 					<version>${osm.version}</version>
-				</dependency>
+				</dependency> -->
 				<dependency>
 					<groupId>com.phome.com</groupId>
 					<artifactId>com-srv</artifactId>
 					<version>${com.version}</version>
 				</dependency>
-				<dependency>
+				<!-- <dependency>
 					<groupId>com.phome.mom</groupId>
 					<artifactId>mom-srv</artifactId>
 					<version>${mom.version}</version>
-				</dependency>
+				</dependency> -->
 				<dependency>
 					<groupId>net.engining.profile</groupId>
 					<artifactId>profile-srv</artifactId>
