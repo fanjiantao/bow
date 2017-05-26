@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+	
+	<!-- 支持基于AspectJ的方法级安全 -->
+	<security:global-method-security pre-post-annotations="enabled" mode="aspectj"/>
+	
+	<!-- 静态资源，不需要权限 -->
+	<security:http pattern="/js/**" security="none" />
+	<security:http pattern="/image/**" security="none" />
+	<security:http pattern="/css/**" security="none" />
+	<security:http pattern="/onLogin/**" security="none" />
+
+	<security:http use-expressions="true" create-session="always" request-matcher="ant" entry-point-ref="entryPoint">
+		
+		<!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后是否踢出前一个账号，expired-url session过期跳转界面 -->
+		<security:session-management>
+			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login.html"/>
+		</security:session-management>
+	</security:http>
+	
+	
+</beans>

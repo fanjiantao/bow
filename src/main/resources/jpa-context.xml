@@ -75,7 +75,7 @@
 			</property>
 			<property name="packagesToScan">
 				<list>
-					<!-- <value>net.engining.pg.parameter.entity.model</value> -->
+					<value>net.engining.pg.parameter.entity.model</value>
 					<value>com.phome.com.entity.model</value>
 					<value>net.engining.profile.entity.model</value>
 					<!-- <value>com.phome.mom.entity.model</value> -->

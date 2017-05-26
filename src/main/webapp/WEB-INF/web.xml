@@ -7,16 +7,16 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	
+	<!-- 配置 spring 容器监听器 -->
   	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	<!-- 配置 spring 上下文配置的文件目录 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:*-context.xml</param-value>
 	</context-param>
-<!-- 	<listener> -->
-<!-- 		<listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class> -->
-<!-- 	</listener> -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter
@@ -28,6 +28,17 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- spring-Security -->
+	<!-- 注意filter-name一定要写成springSecurityFilterChain。在DelegatingFilterProxy类init时，会获取filter-name，然后通过filter-name去spring中获取代理的bean  -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 <!-- 	<filter-mapping> -->
