@@ -16,13 +16,34 @@
 	<security:http pattern="/onLogin/**" security="none" />
 
 	<security:http use-expressions="true" create-session="always" request-matcher="ant" entry-point-ref="entryPoint">
+	
+		<!-- 配置所有的regist服务可以匿名访问 -->
+		<security:intercept-url pattern="/regist/**" access="permitAll()"/>
 		
-		<!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后是否踢出前一个账号，expired-url session过期跳转界面 -->
+		<!-- max-sessions只容许一个账号登录，error-if-maximum-exceeded 后面账号登录后session失效，expired-url session过期跳转界面 -->
 		<security:session-management>
-			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true" expired-url="/login.html"/>
+			<security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login.html"/>
 		</security:session-management>
 	</security:http>
 	
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider user-service-ref="userDetailsManager" />
+	</security:authentication-manager>
+	
+	<bean id="entryPoint" class="net.engining.profile.sdk.support.Ajax401EntryPoint" />
+	
+	<bean id="userDetailsManager" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="hideUserNotFoundExceptions" value="false" />
+		<property name="userDetailsService" ref="userDetailsService" />
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+		<property name="saltSource" ref="saltSource"/>
+	</bean>
+	
+	<bean id="userDetailsService" class="net.engining.profile.sdk.support.ProfileUserDetailsServiceByUserName" />
+	
 	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
 	
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+		<property name="userPropertyToUse" value="username" />
+	</bean>
 </beans>

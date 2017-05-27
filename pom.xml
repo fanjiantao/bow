@@ -26,7 +26,7 @@
 	
 	<dependencies>
 		<!-- api -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.phome.com</groupId>
 			<artifactId>com-api</artifactId>
 			<version>${com.version}</version>
@@ -35,7 +35,7 @@
 			<groupId>net.engining.profile</groupId>
 			<artifactId>profile-api</artifactId>
 			<version>${profile.version}</version>
-		</dependency>
+		</dependency> -->
 	
 		<!-- rest -->
 		<!-- <dependency>
@@ -132,11 +132,11 @@
 			<artifactId>spring-security-cas</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>xml-apis</groupId>
-			<artifactId>xml-apis</artifactId>
-			<version>1.4.01</version>
-		</dependency>
+		<!-- <dependency> -->
+		<!-- 	<groupId>xml-apis</groupId> -->
+		<!-- 	<artifactId>xml-apis</artifactId> -->
+		<!-- 	<version>1.4.01</version> -->
+		<!-- </dependency> -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
