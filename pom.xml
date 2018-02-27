@@ -7,7 +7,7 @@
 		<artifactId>project-parent</artifactId>
 		<version>1.0.RELEASE</version>
 	</parent>
-	<groupId>com.phome.war</groupId>
+	<groupId>com.wzgc.war</groupId>
 	<artifactId>bow-web</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -27,7 +27,7 @@
 	<dependencies>
 		<!-- api -->
 		<!-- <dependency>
-			<groupId>com.phome.com</groupId>
+			<groupId>com.wzgc.com</groupId>
 			<artifactId>com-api</artifactId>
 			<version>${com.version}</version>
 		</dependency>
@@ -39,17 +39,17 @@
 	
 		<!-- rest -->
 		<!-- <dependency>
-			<groupId>com.phome.osm</groupId>
+			<groupId>com.wzgc.osm</groupId>
 			<artifactId>osm-rest</artifactId>
 			<version>${osm.version}</version>
 		</dependency> -->
 		<dependency>
-			<groupId>com.phome.com</groupId>
+			<groupId>com.wzgc.com</groupId>
 			<artifactId>com-rest</artifactId>
 			<version>${com.version}</version>
 		</dependency>
 		<!-- <dependency>
-			<groupId>com.phome.mom</groupId>
+			<groupId>com.wzgc.mom</groupId>
 			<artifactId>mom-rest</artifactId>
 			<version>${mom.version}</version>
 		</dependency> -->
@@ -192,17 +192,17 @@
 				</dependency>
 				<!-- 服务本地依赖 -->
 				<!-- <dependency>
-					<groupId>com.phome.osm</groupId>
+					<groupId>com.wzgc.osm</groupId>
 					<artifactId>osm-srv</artifactId>
 					<version>${osm.version}</version>
 				</dependency> -->
 				<dependency>
-					<groupId>com.phome.com</groupId>
+					<groupId>com.wzgc.com</groupId>
 					<artifactId>com-srv</artifactId>
 					<version>${com.version}</version>
 				</dependency>
 				<!-- <dependency>
-					<groupId>com.phome.mom</groupId>
+					<groupId>com.wzgc.mom</groupId>
 					<artifactId>mom-srv</artifactId>
 					<version>${mom.version}</version>
 				</dependency> -->
@@ -229,17 +229,17 @@
 				 </dependency>
 				<!-- 服务依赖 -->
 				<!-- <dependency>
-					<groupId>com.phome.osm</groupId>
+					<groupId>com.wzgc.osm</groupId>
 					<artifactId>osm-srv</artifactId>
 					<version>${osm.version}</version>
 				</dependency> -->
 				<dependency>
-					<groupId>com.phome.com</groupId>
+					<groupId>com.wzgc.com</groupId>
 					<artifactId>com-srv</artifactId>
 					<version>${com.version}</version>
 				</dependency>
 				<!-- <dependency>
-					<groupId>com.phome.mom</groupId>
+					<groupId>com.wzgc.mom</groupId>
 					<artifactId>mom-srv</artifactId>
 					<version>${mom.version}</version>
 				</dependency> -->

@@ -31,12 +31,12 @@
 		<bean id="prameterFacility" class="net.engining.pg.parameter.LocalNoCacheParameterPacility"/>
 		<bean id="systemStatusFacility" class="net.engining.pcx.gm.facility.SystemStatusFacility"/>
 
- 		<context:component-scan base-package="com.phome.bow"/>
+ 		<context:component-scan base-package="com.wzgc.bow"/>
 		<context:component-scan base-package="net.engining.pcx.gm" />
 		<context:component-scan base-package="net.engining.profile.srv.service" />
-		<context:component-scan base-package="com.phome.com.srv.service" />
-		<!-- <context:component-scan base-package="com.phome.mom.srv.service" /> -->
-		<!-- <context:component-scan base-package="com.phome.osm.srv.service" /> -->
+		<context:component-scan base-package="com.wzgc.com.srv.service" />
+		<!-- <context:component-scan base-package="com.wzgc.mom.srv.service" /> -->
+		<!-- <context:component-scan base-package="com.wzgc.osm.srv.service" /> -->
 
 	</beans>
 </beans>

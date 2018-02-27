@@ -34,8 +34,8 @@
 	<context:component-scan base-package="net.engining.profile.rest.server"/>
 	<context:component-scan base-package="net.engining.profile.sdk.server"/>
 	
-	<context:component-scan base-package="com.phome.com.rest.server"/>
-	<!-- <context:component-scan base-package="com.phome.osm.rest.server"/> -->
-	<!-- <context:component-scan base-package="com.phome.mom.rest.server"/> -->
+	<context:component-scan base-package="com.wzgc.com.rest.server"/>
+	<!-- <context:component-scan base-package="com.wzgc.osm.rest.server"/> -->
+	<!-- <context:component-scan base-package="com.wzgc.mom.rest.server"/> -->
 
 </beans>

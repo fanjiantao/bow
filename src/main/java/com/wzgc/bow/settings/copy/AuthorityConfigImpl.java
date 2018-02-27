@@ -1,4 +1,4 @@
-package com.phome.bow.settings;
+package com.wzgc.bow.settings.copy;
 
 import java.util.List;
 
